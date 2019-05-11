@@ -25,7 +25,7 @@ export default {
     return {
       title: "booj books",
       slogan: "be original or jealous",
-      bookResults: {}
+      bookResults: []
     };
   },
   mounted() {
@@ -39,7 +39,9 @@ export default {
         return response.json();
       })
       .then(jsonData => {
-        this.bookResults = jsonData.books;
+        this.bookResults = Object.values(jsonData.books);
+        // console.log(this.bookResults);
+        // this.bookResults = jsonData.books;
       });
   }
 };

@@ -1,14 +1,19 @@
 <template>
   <div id="listing-container">
-    <h5>Hover over titles for more info:</h5>
+    <h5 class="instruction-text">Hover over titles for more info:</h5>
     <b-list-group>
-      <b-list-group-item v-for="(book, index) in bookResults" :key="index">
+      <b-list-group-item
+        v-for="(book, index) of bookResults"
+        :key="index"
+        @mouseover="isHovered = true"
+        @mouseout="isHovered = false"
+      >
         <b-row>
           <b-col cols="9">{{ book.title }}</b-col>
           <b-col cols="3" v-show="isHovered">
             <b-row>
-              <b-col class="p-0 details" cols="9" @click="showDetails">Details</b-col>
-              <b-col class="p-0 delete-icon" cols="3" @click="deleteRow">
+              <b-col class="p-0 details" cols="9" @click="showDetails(index)">Details</b-col>
+              <b-col class="p-0 delete-icon" cols="3" @click="deleteRow(book, index)">
                 <font-awesome-icon icon="trash"/>
               </b-col>
             </b-row>
@@ -22,19 +27,26 @@
 <script>
 export default {
   props: {
-    bookResults: Object
+    bookResults: Array
   },
   data() {
     return {
-      isHovered: true
+      isHovered: false
     };
   },
+  watch: {
+    bookResults: {
+      immediate: true,
+      handler() {}
+    }
+  },
   methods: {
-    showDetails() {
-      console.log("Showed Details");
+    showDetails(index) {
+      console.log(index);
     },
-    deleteRow() {
-      console.log("Delete Row");
+    deleteRow(book, index) {
+      //   this.bookResults.pop(index);
+      console.log(JSON.stringify(book) + index);
     }
   }
 };
@@ -42,6 +54,9 @@ export default {
 
 
 <style scoped>
+.instruction-text {
+  margin-top: 20px;
+}
 .list-group {
   margin-top: 15px;
 }
