@@ -5,15 +5,14 @@
       <b-list-group-item
         v-for="(book, index) of bookResults"
         :key="index"
-        @mouseover="isHovered = true"
-        @mouseout="isHovered = false"
+        @mouseover="selectedRow(index)"
       >
         <b-row>
           <b-col cols="9">{{ book.title }}</b-col>
           <b-col cols="3" v-show="isHovered">
             <b-row>
               <b-col class="p-0 details" cols="9" @click="showDetails(index)">Details</b-col>
-              <b-col class="p-0 delete-icon" cols="3" @click="deleteRow(book, index)">
+              <b-col class="p-0 delete-icon" cols="3" @click="deleteRow(index)">
                 <font-awesome-icon icon="trash"/>
               </b-col>
             </b-row>
@@ -34,19 +33,21 @@ export default {
       isHovered: false
     };
   },
-  watch: {
-    bookResults: {
-      immediate: true,
-      handler() {}
-    }
-  },
+  //   watch: {
+  //     bookResults: {
+  //       immediate: true,
+  //       handler() {}
+  //     }
+  //   },
   methods: {
+    selectedRow(index) {
+      this.bookResults[index];
+    },
     showDetails(index) {
       console.log(index);
     },
-    deleteRow(book, index) {
-      //   this.bookResults.pop(index);
-      console.log(JSON.stringify(book) + index);
+    deleteRow(index) {
+      this.$delete(this.bookResults, index);
     }
   }
 };

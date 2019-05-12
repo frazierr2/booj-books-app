@@ -14,6 +14,7 @@
 <script>
 import Header from "./components/Header.vue";
 import ListView from "./components/ListView.vue";
+// const axios = require("axios");
 
 export default {
   name: "app",
@@ -29,6 +30,26 @@ export default {
     };
   },
   mounted() {
+    // axios
+    //   .get(
+    //     "http://www.librarything.com/api_getdata.php?userid=timspalding&showstructure=1&max=20&showCollections=1&showTags=1&booksort=title_REV&responseType=json",
+    //     {
+    //       headers: {
+    //         "Access-Control-Allow-Origin": "*"
+    //       }
+    //     }
+    //   )
+    //   .then(function(response) {
+    //     // handle success
+    //     console.log(response.data.books);
+    //     console.log("this.bookResults: ", this.bookResults);
+    //     // this.bookResults = response.data.books;
+    //   })
+    //   .catch(function(error) {
+    //     // handle error
+    //     console.log(error);
+    //   });
+
     fetch(
       "http://www.librarything.com/api_getdata.php?userid=timspalding&showstructure=1&max=20&showCollections=1&showTags=1&booksort=title_REV&responseType=json",
       {
@@ -36,9 +57,11 @@ export default {
       }
     )
       .then(response => {
+        // console.log("response:", response);
         return response.json();
       })
       .then(jsonData => {
+        // console.log("jsonData: ", JSON.stringify(jsonData));
         this.bookResults = Object.values(jsonData.books);
         // console.log(this.bookResults);
         // this.bookResults = jsonData.books;
