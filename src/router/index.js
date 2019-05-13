@@ -10,7 +10,7 @@ export default new Router({
     mode: 'history',
     routes: [
         {
-            path: '/',
+            path: '/booj-books-app',
             name: 'home',
             component: HomeComponent
         },
