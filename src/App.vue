@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header :title="title" :slogan="slogan"/>
+
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm="10" offset="1">
@@ -14,7 +15,6 @@
 <script>
 import Header from "./components/Header.vue";
 import ListView from "./components/ListView.vue";
-// const axios = require("axios");
 
 export default {
   name: "app",
@@ -30,26 +30,6 @@ export default {
     };
   },
   mounted() {
-    // axios
-    //   .get(
-    //     "http://www.librarything.com/api_getdata.php?userid=timspalding&showstructure=1&max=20&showCollections=1&showTags=1&booksort=title_REV&responseType=json",
-    //     {
-    //       headers: {
-    //         "Access-Control-Allow-Origin": "*"
-    //       }
-    //     }
-    //   )
-    //   .then(function(response) {
-    //     // handle success
-    //     console.log(response.data.books);
-    //     console.log("this.bookResults: ", this.bookResults);
-    //     // this.bookResults = response.data.books;
-    //   })
-    //   .catch(function(error) {
-    //     // handle error
-    //     console.log(error);
-    //   });
-
     fetch(
       "https://cors-anywhere.herokuapp.com/https://www.librarything.com/api_getdata.php?userid=timspalding&showstructure=1&max=20&showCollections=1&showTags=1&booksort=title_REV&responseType=json",
       // "https://www.librarything.com/api_getdata.php?userid=timspalding&showstructure=1&max=20&showCollections=1&showTags=1&booksort=title_REV&responseType=json",
