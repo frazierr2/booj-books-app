@@ -34,6 +34,9 @@
         <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
           <b-input id="inline-form-input-username" placeholder="Rating" v-model="form.rating"></b-input>
         </b-input-group>
+        <b-input-group class="mb-2 mr-sm-2 mb-sm-0" style="width: 80%;">
+          <b-input id="inline-form-input-username" placeholder="Cover URL" v-model="form.cover"></b-input>
+        </b-input-group>
 
         <b-button type="submit" variant="primary">Save</b-button>
       </b-form>
@@ -49,7 +52,7 @@
           <b-col cols="9">{{ book.title }}</b-col>
           <b-col cols="3" v-show="isHovered">
             <b-row>
-              <b-col class="p-0 details" cols="9">Details</b-col>
+              <b-col class="p-0 details" cols="9" @click="getDetails(index)">Details</b-col>
               <b-col class="p-0 delete-icon" cols="3" @click="deleteRow(index)">
                 <font-awesome-icon icon="trash"/>
               </b-col>
@@ -78,7 +81,8 @@ export default {
         title: "",
         author_fl: "",
         publicationdate: "",
-        rating: ""
+        rating: "",
+        cover: ""
       }
     };
   },
@@ -102,6 +106,15 @@ export default {
       this.form.author_fl = "";
       this.form.publicationdate = "";
       this.form.rating = "";
+    },
+    getDetails(index) {
+      //   console.log(this.shuffledBooks[index]);
+      let bookDetails = this.shuffledBooks[index];
+      //   console.log(bookDetails.cover);
+      this.$router.push({
+        name: "details",
+        params: { id: bookDetails }
+      });
     },
     selectedRow(index) {
       this.bookResults[index];
