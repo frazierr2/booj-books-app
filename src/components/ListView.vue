@@ -3,7 +3,7 @@
     <h5 class="instruction-text">Hover over titles for more info:</h5>
     <b-button variant="outline-primary" @click="shuffleBooks">Shuffle List</b-button>
     <b-dropdown id="dropdown-1" variant="outline-success" text="Sort By" class="m-md-2">
-      <b-dropdown-item @click="sortTitle">Title</b-dropdown-item>
+      <b-dropdown-item @click="sortTitle">Title (A-Z)</b-dropdown-item>
       <b-dropdown-divider></b-dropdown-divider>
       <b-dropdown-item @click="sortAuthor">Author</b-dropdown-item>
       <b-dropdown-divider></b-dropdown-divider>
@@ -11,7 +11,34 @@
       <b-dropdown-divider></b-dropdown-divider>
       <b-dropdown-item @click="reverseList">Reverse List</b-dropdown-item>
     </b-dropdown>
-    <b-button variant="outline-danger">Add New Book</b-button>
+    <b-button variant="outline-danger" @click="newBookForm = !newBookForm">Add New Book</b-button>
+
+    <div v-if="newBookForm">
+      <b-form inline @submit="addNewBook">
+        <b-input
+          id="inline-form-input-name"
+          class="mb-2 mr-sm-2 mb-sm-0"
+          placeholder="Book Title"
+          v-model="form.title"
+        ></b-input>
+        <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
+          <b-input id="inline-form-input-username" placeholder="Author" v-model="form.author_fl"></b-input>
+        </b-input-group>
+        <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
+          <b-input
+            id="inline-form-input-username"
+            placeholder="Publication Date"
+            v-model="form.publicationdate"
+          ></b-input>
+        </b-input-group>
+        <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
+          <b-input id="inline-form-input-username" placeholder="Rating" v-model="form.rating"></b-input>
+        </b-input-group>
+
+        <b-button type="submit" variant="primary">Save</b-button>
+      </b-form>
+    </div>
+
     <b-list-group>
       <b-list-group-item
         v-for="(book, index) in shuffledBooks"
@@ -45,7 +72,14 @@ export default {
     return {
       isHovered: true,
       shuffledBooks: [],
-      results: []
+      results: [],
+      newBookForm: false,
+      form: {
+        title: "",
+        author_fl: "",
+        publicationdate: "",
+        rating: ""
+      }
     };
   },
   computed: {},
@@ -58,6 +92,17 @@ export default {
     }
   },
   methods: {
+    addNewBook(evt) {
+      evt.preventDefault();
+      let newBookObject = JSON.stringify(this.form);
+      let parsedBookObject = JSON.parse(newBookObject);
+      this.bookResults.push(parsedBookObject);
+      this.newBookForm = false;
+      this.form.title = "";
+      this.form.author_fl = "";
+      this.form.publicationdate = "";
+      this.form.rating = "";
+    },
     selectedRow(index) {
       this.bookResults[index];
       //   console.log(this.bookResults[index]);
@@ -66,7 +111,7 @@ export default {
     //   console.log(index);
     // },
     deleteRow(index) {
-      this.$delete(this.bookResults, index);
+      this.$delete(this.shuffledBooks, index);
     },
     shuffleBooks() {
       let books = [...this.bookResults];
