@@ -1,8 +1,7 @@
 <template>
   <div id="listing-container">
-    <h5 class="instruction-text">Hover over titles for more info:</h5>
-    <b-button variant="outline-primary" @click="shuffleBooks">Shuffle List</b-button>
-    <b-dropdown id="dropdown-1" variant="outline-success" text="Sort By" class="m-md-2">
+    <b-button id="shuffle-btn" variant="outline-primary" @click="shuffleBooks">Shuffle List</b-button>
+    <b-dropdown id="sort-by-btn" variant="outline-warning" text="Sort By" class="m-md-2">
       <b-dropdown-item @click="sortTitle">Title (A-Z)</b-dropdown-item>
       <b-dropdown-divider></b-dropdown-divider>
       <b-dropdown-item @click="sortAuthor">Author</b-dropdown-item>
@@ -11,7 +10,11 @@
       <b-dropdown-divider></b-dropdown-divider>
       <b-dropdown-item @click="reverseList">Reverse List</b-dropdown-item>
     </b-dropdown>
-    <b-button variant="outline-danger" @click="newBookForm = !newBookForm">Add New Book</b-button>
+    <b-button
+      class="addButton"
+      variant="outline-success"
+      @click="newBookForm = !newBookForm"
+    >Add New Book</b-button>
 
     <div v-if="newBookForm">
       <b-form inline @submit="addNewBook">
@@ -43,13 +46,9 @@
     </div>
 
     <b-list-group>
-      <b-list-group-item
-        v-for="(book, index) in shuffledBooks"
-        :key="index"
-        @mouseover="selectedRow(index)"
-      >
+      <b-list-group-item v-for="(book, index) of shuffledBooks" :key="index">
         <b-row>
-          <b-col cols="9">{{ book.title }}</b-col>
+          <b-col cols="9 book-title">{{ book.title }}</b-col>
           <b-col cols="3" v-show="isHovered">
             <b-row>
               <b-col class="p-0 details" cols="9" @click="getDetails(index)">Details</b-col>
@@ -75,7 +74,6 @@ export default {
     return {
       isHovered: true,
       shuffledBooks: [],
-      results: [],
       newBookForm: false,
       form: {
         title: "",
@@ -86,7 +84,6 @@ export default {
       }
     };
   },
-  computed: {},
   watch: {
     bookResults: {
       immediate: true,
@@ -96,6 +93,7 @@ export default {
     }
   },
   methods: {
+    //Adding new book and resetting form
     addNewBook(evt) {
       evt.preventDefault();
       let newBookObject = JSON.stringify(this.form);
@@ -107,29 +105,23 @@ export default {
       this.form.publicationdate = "";
       this.form.rating = "";
     },
+    // Gets object by index and passes to detail view to display more data
     getDetails(index) {
-      //   console.log(this.shuffledBooks[index]);
       let bookDetails = this.shuffledBooks[index];
-      //   console.log(bookDetails.cover);
       this.$router.push({
         name: "details",
         params: { id: bookDetails }
       });
     },
-    selectedRow(index) {
-      this.bookResults[index];
-      //   console.log(this.bookResults[index]);
-    },
-    // showDetails(index) {
-    //   console.log(index);
-    // },
+    //Delete Row based on index in shuffled array
     deleteRow(index) {
       this.$delete(this.shuffledBooks, index);
     },
+    // Shuffle get response to change order of list.
     shuffleBooks() {
-      let books = [...this.bookResults];
-      this.shuffledBooks = _.shuffle(books);
+      this.shuffledBooks = _.shuffle(this.bookResults);
     },
+    // Below are four function to sort / change view based on user input
     sortTitle() {
       this.shuffledBooks = _.sortBy(this.shuffledBooks, book => book.title);
     },
@@ -151,6 +143,15 @@ export default {
 
 
 <style scoped>
+#shuffle-btn {
+  color: white;
+}
+#sort-by-btn {
+  color: white !important;
+}
+.addButton {
+  color: white;
+}
 .btn {
   margin: 10px;
 }
@@ -159,19 +160,40 @@ export default {
 }
 .list-group {
   margin-top: 15px;
+  border: 4px solid white;
+  padding: 10px;
 }
 .list-group-item {
   margin-bottom: 5px;
+  /* background-color: #d6dbdf; */
+  background: rgba(253, 254, 254, 0.7);
 }
 .list-group-item:hover {
   background: #eee;
   cursor: pointer;
+}
+.book-title {
+  color: #34495e;
 }
 .details {
   font-size: 14px;
 }
 .delete-icon:hover {
   color: red;
+}
+.row {
+  margin-left: -15px !important;
+  margin-right: -15px !important;
+}
+@media only screen and (max-width: 1000px) {
+  .list-group-item {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .list-group-item {
+    font-size: 11.5px;
+  }
 }
 </style>
 
