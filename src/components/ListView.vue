@@ -104,6 +104,7 @@ export default {
       this.form.author_fl = "";
       this.form.publicationdate = "";
       this.form.rating = "";
+      this.form.cover = "";
     },
     // Gets object by index and passes to detail view to display more data
     getDetails(index) {

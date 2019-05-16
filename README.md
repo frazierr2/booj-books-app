@@ -1,20 +1,7 @@
-# booj coding challenge:
+#The Book Club
 
-Expected results:
+This app is an app built with Vue.js and Vue Router. The app pulls in a open public books API using fetch. The expected reults allow the user to add and remove from the list, change the order of the items on the list, sort the list by certain criteria and finally display a details page with additional data from the book through the API. There are some basic Jest test thrown in to learn how to incorporate some basic testing into the application. 
 
-- Find a publically available open API and Create a Vue app 
-
--  Add or remove from the list
-
-- Change the order of the items in the list
-
-- Sort the list of books by a criteria
-
-- Display a book page with a minimum of 3 data points
-
-- Include unit tests
-
-- Deploy it on the cloud
 
 
 
